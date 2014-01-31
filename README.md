@@ -2,6 +2,8 @@
 
 Allows the creation and seeding of fake Eloquent models. This is a PHP 5.4+ package.
 
+Can be used in tests or to generate batch of fake entries in the seeds.
+
 ## Installation
 
 ```
