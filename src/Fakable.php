@@ -279,7 +279,8 @@ class Fakable
 
 		// Build the relations
 		$relations = array();
-		foreach($this->relations as list($relation, $signature)) {
+		foreach($this->relations as $relation) {
+			list($relation, $signature) = $relation;
 			$entries = call_user_func_array([$relation, 'generateEntries'], $signature);
 			foreach ($entries as $entry) {
 				$relations[$relation->getTable()][] = $entry;
