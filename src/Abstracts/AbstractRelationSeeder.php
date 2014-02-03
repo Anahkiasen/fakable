@@ -157,7 +157,8 @@ abstract class AbstractRelationSeeder
 	 */
 	public function generateEntries($min = 5, $max = null, array $attributes = array())
 	{
-		if (empty($this->generateEntry())) {
+		$isEmpty = empty($this->generateEntry());
+		if ($isEmpty) {
 			return array();
 		}
 
