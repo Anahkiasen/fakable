@@ -209,13 +209,14 @@ class Fakable
 		}
 
 		// Save instance
-		$this->generated[] = $instance;
 		if ($this->saved and !$this->batch) {
 			$instance->save();
+		} else {
+			$this->generated[] = $instance;
 		}
 
 		// Generate relations if necessary
-		if ($generateRelations) {
+		if ($generateRelations or !$this->batch) {
 			$this->insertGeneratedRelations();
 		}
 
