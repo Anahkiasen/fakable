@@ -234,7 +234,6 @@ class Fakable
 		if ($callback = $this->callback) {
 			$instance = $callback($instance);
 		}
-		var_dump($instance->toArray()); exit;
 
 		// Save instance
 		if ($this->saved and !$this->batch) {
