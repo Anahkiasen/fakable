@@ -1,6 +1,7 @@
 <?php
 namespace Fakable;
 
+use Closure;
 use DB;
 use Fakable\Relations\MorphTo;
 use Faker\Factory as Faker;
@@ -61,6 +62,13 @@ class Fakable
 	 * @var Collection
 	 */
 	protected $generated = array();
+
+	/**
+	 * The callback to apply on generated instances
+	 *
+	 * @var Closure
+	 */
+	protected $callback;
 
 	/**
 	 * Create a new Fakable instance
@@ -129,6 +137,20 @@ class Fakable
 		if (!empty($attributes)) {
 			$this->attributes = $attributes;
 		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets the The callback to apply on generated instances.
+	 *
+	 * @param Closure $callback the callback
+	 *
+	 * @return self
+	 */
+	public function setCallback(Closure $callback)
+	{
+		$this->callback = $callback;
 
 		return $this;
 	}
@@ -207,6 +229,12 @@ class Fakable
 			$instance->created_at = $attributes['created_at'];
 			$instance->updated_at = $attributes['updated_at'];
 		}
+
+		// Apply callback
+		if ($callback = $this->callback) {
+			$instance = $callback($instance);
+		}
+		var_dump($instance->toArray()); exit;
 
 		// Save instance
 		if ($this->saved and !$this->batch) {
