@@ -212,13 +212,14 @@ class Fakable
 
 		// Generate dummy attributes
 		$defaults  = array();
+		$relations = array();
 		foreach ($fakables as $attribute => $signature) {
 			$signature = (array) $signature;
 
 			if (!method_exists($this->model, $attribute)) {
 				$this->callFromSignature($defaults, $attribute, $signature);
 			} else {
-				$this->relations[] = $this->createRelationSeederFromSignature($attribute, $signature, $defaults, $instance);
+				$relations[] = $this->createRelationSeederFromSignature($attribute, $signature, $defaults, $instance);
 			}
 		}
 
@@ -230,10 +231,16 @@ class Fakable
 			$instance->updated_at = $attributes['updated_at'];
 		}
 
-		// Apply callback
+		// Apply callback and cancel if void
 		if ($callback = $this->callback) {
 			$instance = $callback($instance, $this->faker);
+			if (!$instance) {
+				return;
+			}
 		}
+
+		// Merge relations
+		$this->relations = array_merge($this->relations, $relations);
 
 		// Save instance
 		if ($this->saved and !$this->batch) {
