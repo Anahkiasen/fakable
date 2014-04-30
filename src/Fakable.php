@@ -232,7 +232,7 @@ class Fakable
 
 		// Apply callback
 		if ($callback = $this->callback) {
-			$instance = $callback($instance);
+			$instance = $callback($instance, $this->faker);
 		}
 
 		// Save instance
