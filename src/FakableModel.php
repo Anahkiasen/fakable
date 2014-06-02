@@ -55,11 +55,16 @@ trait FakableModel
 	/**
 	 * Get a fakable instance
 	 *
+	 * @param Illuminate\Console\Command $command
+	 *
 	 * @return Fakable
 	 */
-	public static function fakable()
+	public static function fakable($command = null)
 	{
-		return new Fakable(new static);
+		$fakable = new Fakable(new static);
+		$fakable->setCommand($command);
+
+		return $fakable;
 	}
 
 	/**

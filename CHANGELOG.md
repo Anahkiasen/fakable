@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 1.2.0
+
+- Add ability to pass a command to Fakable to display progress
+
 # 1.1.1
 
 - Allow the closure of `setCallback` to return a falsey value to skip that instance from being seeded

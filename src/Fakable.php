@@ -8,6 +8,7 @@ use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Console\Command;
 
 /**
  * Generates a fake model
@@ -69,6 +70,13 @@ class Fakable
 	 * @var Closure
 	 */
 	protected $callback;
+
+	/**
+	 * An instance of Command to report progress to
+	 *
+	 * @var Command
+	 */
+	protected $command;
 
 	/**
 	 * Create a new Fakable instance
@@ -155,6 +163,18 @@ class Fakable
 		return $this;
 	}
 
+	/**
+	 * Set the Command to report to
+	 *
+	 * @param Command $output
+	 */
+	public function setCommand(Command $command = null)
+	{
+		$this->command = $command;
+
+		return $this;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////////// POOL /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -170,7 +190,7 @@ class Fakable
 	public function setPool($min, $max = null)
 	{
 		$max = $max ?: $min + 5;
-		$this->pool = $this->faker->randomNumber($min, $max);
+		$this->pool = $this->faker->numberBetween($min, $max);
 
 		return $this;
 	}
@@ -269,9 +289,10 @@ class Fakable
 		$this->setAttributes($attributes);
 
 		// Create models
-		for ($i = 0; $i <= $this->pool; $i++) {
+		$iterator = range(0, $this->pool);
+		$this->progressIterator($iterator, function() {
 			$this->fakeModel([], false);
-		}
+		});
 
 		// Create relations
 		$this->insertGeneratedRelations();
@@ -347,9 +368,13 @@ class Fakable
 			$slices = array_chunk($entries, $slicer);
 		}
 
-		foreach ($slices as $entries) {
-			DB::table($table)->insert($entries);
+		if ($this->command) {
+			$this->command->comment('Insert entries');
 		}
+
+		$this->progressIterator($slices, function ($entries) use ($table) {
+			DB::table($table)->insert($entries);
+		});
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -401,6 +426,45 @@ class Fakable
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Print progress on an iterator
+	 *
+	 * @param array $items
+	 *
+	 * @return void
+	 */
+	public function progressIterator($items, Closure $closure)
+	{
+		// Normal loop if no output
+		if (!$this->command or sizeof($items) == 1) {
+			foreach ($items as $value) {
+				$closure($value);
+			}
+
+			return;
+		}
+
+		$output     = $this->command->getOutput();
+		$iterations = sizeof($items);
+
+		// Create Progress helper
+		if (class_exists('Symfony\Component\Console\Helper\ProgressBar')) {
+			$progress = new \Symfony\Component\Console\Helper\ProgressBar($output, $iterations);
+			$progress->start();
+		} else {
+			$progress = $this->command->getHelper('progress');
+			$progress->start($output, $iterations);
+		}
+
+		// Loop over items
+		foreach ($items as $value) {
+			$progress->advance();
+			$closure($value, $progress);
+		}
+
+		$progress->finish();
+	}
 
 	/**
 	 * Factor a RelationSeeder from a signature
