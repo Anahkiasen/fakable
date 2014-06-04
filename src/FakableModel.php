@@ -13,9 +13,9 @@ trait FakableModel
 	 */
 	protected $defaultFakables = array(
 		'name'       => ['sentence', 5],
-		'gender'     => ['randomNumber', [0, 1]],
-		'age'        => ['randomNumber', [1, 90]],
-		'note'       => ['randomNumber', [1, 10]],
+		'gender'     => ['numberBetween', [0, 1]],
+		'age'        => ['numberBetween', [1, 90]],
+		'note'       => ['numberBetween', [1, 10]],
 
 		'contents'   => ['paragraph', 5],
 		'biography'  => ['paragraph', 5],
