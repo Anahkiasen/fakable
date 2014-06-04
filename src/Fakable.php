@@ -413,7 +413,7 @@ class Fakable
 		$max       = $max ?: $min + 5;
 		$available = $model::lists('id');
 		$available = empty($available) ? range(1, $this->pool) : $available;
-		$number    = $this->faker->randomNumber($min, $max);
+		$number    = $this->faker->numberBetween($min, $max);
 
 		$entries = array();
 		for ($i = 0; $i <= $number; $i++) {
