@@ -37,7 +37,7 @@ class User extends Eloquent
    */
   protected $fakables = array(
     'nationality' => 'countryCode',
-    'timzeone'    => ['randomNumber', [1, 415]],
+    'timzeone'    => ['numberBetween', [1, 415]],
   );
 }
 ```

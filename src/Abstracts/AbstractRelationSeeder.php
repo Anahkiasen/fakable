@@ -164,7 +164,7 @@ abstract class AbstractRelationSeeder
 
 		$entries = [];
 		$max  = $max ?: $min + 5;
-		$pool = $this->fakable->getFaker()->randomNumber($min, $max);
+		$pool = $this->fakable->getFaker()->numberBetween($min, $max);
 
 		for ($i = 0; $i < $pool; $i++) {
 			$entries[] = $this->generateEntry($attributes);
