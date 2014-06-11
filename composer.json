@@ -10,8 +10,7 @@
 	"require": {
 		"php": ">=5.4.0",
 		"illuminate/support": "~4",
-		"fzaninotto/faker": "dev-master",
-		"symfony/console": "2.5.*"
+		"fzaninotto/faker": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
