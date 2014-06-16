@@ -1,6 +1,8 @@
 <?php
 namespace Fakable;
 
+use Illuminate\Console\Command;
+
 /**
  * Implements faking methods to a model
  */
@@ -59,7 +61,7 @@ trait FakableModel
 	 *
 	 * @return Fakable
 	 */
-	public static function fakable($command = null)
+	public static function fakable(Command $command = null)
 	{
 		$fakable = new Fakable(new static);
 		$fakable->setCommand($command);
