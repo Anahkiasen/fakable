@@ -2,7 +2,7 @@
 namespace Fakable;
 
 use Closure;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Fakable\Relations\MorphTo;
 use Faker\Factory as Faker;
 use Illuminate\Console\Command;
@@ -88,6 +88,10 @@ class Fakable
 		$this->model = clone $model;
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HEADERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Get the Faker instance
 	 *
@@ -96,6 +100,14 @@ class Fakable
 	public function getFaker()
 	{
 		return $this->faker;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPool()
+	{
+		return $this->pool;
 	}
 
 	////////////////////////////////////////////////////////////////////
