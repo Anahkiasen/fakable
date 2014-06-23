@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "0b903eaff5da0a5043e2769c5ec1f50620652812"
+                "reference": "7ae7fbe87088fcc4cc6b8610fcc62463c84ab632"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/0b903eaff5da0a5043e2769c5ec1f50620652812",
-                "reference": "0b903eaff5da0a5043e2769c5ec1f50620652812",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/7ae7fbe87088fcc4cc6b8610fcc62463c84ab632",
+                "reference": "7ae7fbe87088fcc4cc6b8610fcc62463c84ab632",
                 "shasum": ""
             },
             "require": {
@@ -54,21 +54,21 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-06-04 14:44:10"
+            "time": "2014-06-19 08:47:08"
         },
         {
             "name": "illuminate/support",
-            "version": "v4.2.1",
+            "version": "v4.2.4",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "f1dd716598f99ff18b455da3e073a8324d65252e"
+                "reference": "976bdc0f42e9efd3dfa2e0eba11aba48a97113ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/f1dd716598f99ff18b455da3e073a8324d65252e",
-                "reference": "f1dd716598f99ff18b455da3e073a8324d65252e",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/976bdc0f42e9efd3dfa2e0eba11aba48a97113ac",
+                "reference": "976bdc0f42e9efd3dfa2e0eba11aba48a97113ac",
                 "shasum": ""
             },
             "require": {
@@ -104,7 +104,7 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-05-30 16:22:28"
+            "time": "2014-06-13 20:42:27"
         }
     ],
     "packages-dev": [],

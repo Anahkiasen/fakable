@@ -1,7 +1,6 @@
 <?php
 namespace Fakable\Abstracts;
 
-use Exception;
 use Fakable\Fakable;
 
 /**
@@ -34,6 +33,8 @@ abstract class AbstractRelationSeeder
 	 * Build a new RelationSeeder
 	 *
 	 * @param Fakable $fakable
+	 * @param         $model
+	 * @param         $relation
 	 */
 	public function __construct(Fakable $fakable, $model, $relation)
 	{
@@ -138,20 +139,11 @@ abstract class AbstractRelationSeeder
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Generate an entry
-	 *
-	 * @return array
-	 */
-	public function generateEntry()
-	{
-		return array();
-	}
-
-	/**
 	 * Generate multiple entries
 	 *
-	 * @param integer  $min
-	 * @param integer  $max
+	 * @param integer $min
+	 * @param integer $max
+	 * @param array   $attributes
 	 *
 	 * @return array
 	 */
@@ -163,13 +155,23 @@ abstract class AbstractRelationSeeder
 		}
 
 		$entries = [];
-		$max  = $max ?: $min + 5;
-		$pool = $this->fakable->getFaker()->numberBetween($min, $max);
+		$max     = $max ?: $min + 5;
+		$pool    = $this->fakable->getFaker()->numberBetween($min, $max);
 
 		for ($i = 0; $i < $pool; $i++) {
 			$entries[] = $this->generateEntry($attributes);
 		}
 
 		return $entries;
+	}
+
+	/**
+	 * Generate an entry
+	 *
+	 * @return array
+	 */
+	public function generateEntry()
+	{
+		return array();
 	}
 }

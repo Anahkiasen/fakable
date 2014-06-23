@@ -8,6 +8,8 @@ class BelongsToMany extends AbstractRelationSeeder
 	/**
 	 * Generate an entry in a table pivot table
 	 *
+	 * @param array $attributes
+	 *
 	 * @return array
 	 */
 	public function generateEntry(array $attributes = array())
