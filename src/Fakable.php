@@ -2,12 +2,12 @@
 namespace Fakable;
 
 use Closure;
-use Illuminate\Support\Facades\DB;
 use Fakable\Relations\MorphTo;
 use Faker\Factory as Faker;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Generates a fake model
@@ -254,7 +254,7 @@ class Fakable
 	 *
 	 * @return void
 	 */
-	public function progressIterator($items, Callable $closure)
+	public function progressIterator($items, callable $closure)
 	{
 		// Normal loop if no output
 		if (!$this->command or sizeof($items) == 1) {

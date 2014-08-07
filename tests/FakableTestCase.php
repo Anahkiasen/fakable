@@ -38,8 +38,6 @@ class FakableTestCase extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *
-	 *
 	 * @param $capsule
 	 */
 	protected static function createTables($capsule)

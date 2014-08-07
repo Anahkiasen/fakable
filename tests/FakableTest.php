@@ -91,4 +91,3 @@ class FakableTest extends FakableTestCase
 		$this->fakable->setSaved(false);
 	}
 }
-
