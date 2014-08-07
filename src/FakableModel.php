@@ -103,6 +103,14 @@ trait FakableModel
 	 */
 	public function getFakables()
 	{
-		return array_merge((array) $this->defaultFakables, (array) $this->fakables);
+		$defaults   = (array) $this->defaultFakables;
+		$attributes = (array) $this->fakables;
+
+		// Don't merge defaults if unguarded
+		if (static::$unguarded) {
+			return $attributes;
+		}
+
+		return array_merge($defaults, $attributes);
 	}
 }

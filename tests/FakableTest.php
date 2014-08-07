@@ -2,25 +2,11 @@
 namespace Fakable;
 
 use Fakable\Dummies\DummyFakableModel;
+use Fakable\TestCases\FakableTestCase;
 use Mockery;
 
 class FakableTest extends FakableTestCase
 {
-	/**
-	 * @var Fakable
-	 */
-	protected $fakable;
-
-	protected function setUp()
-	{
-		parent::setUp();
-
-		$model         = new DummyFakableModel;
-		$this->fakable = new Fakable($model);
-
-		$this->fakable->setSaved(false);
-	}
-
 	public function testCanSetPoolFromOtherModel()
 	{
 		Mockery::mock('alias:SomeModel', ['count' => 5]);

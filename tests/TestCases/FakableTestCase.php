@@ -1,8 +1,11 @@
 <?php
-namespace Fakable;
+namespace Fakable\TestCases;
 
+use Fakable\Dummies\DummyFakableModel;
+use Fakable\Fakable;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
@@ -13,6 +16,19 @@ use Illuminate\Support\Facades\DB;
  */
 class FakableTestCase extends \PHPUnit_Framework_TestCase
 {
+	/**
+	 * @var Fakable
+	 */
+	protected $fakable;
+
+	/**
+	 * @type \Fakable\Dummies\DummyFakableModel
+	 */
+	protected $model;
+
+	/**
+	 * Set up the tests
+	 */
 	public static function setUpBeforeClass()
 	{
 		$capsule = new Manager;
@@ -29,15 +45,28 @@ class FakableTestCase extends \PHPUnit_Framework_TestCase
 		DB::setFacadeApplication(new Container);
 		DB::swap($capsule->getDatabaseManager());
 
+		// Reguard attributes
+		Model::reguard();
+
 		self::createTables($capsule);
 	}
 
+	/**
+	 * Create dummy instances
+	 */
 	protected function setUp()
 	{
 		DB::table('dummy_fakable_models')->truncate();
+
+		$this->model   = new DummyFakableModel();
+		$this->fakable = new Fakable($this->model);
+
+		$this->fakable->setSaved(false);
 	}
 
 	/**
+	 * Mock the database
+	 *
 	 * @param $capsule
 	 */
 	protected static function createTables($capsule)
