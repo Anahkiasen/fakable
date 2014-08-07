@@ -8,12 +8,20 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Generates a fake model
  */
 class Fakable
 {
+	/**
+	 * The core fixture to inherit from
+	 *
+	 * @type string
+	 */
+	public static $baseFixture;
+
 	/**
 	 * The model to fake
 	 *
@@ -27,6 +35,13 @@ class Fakable
 	 * @var array
 	 */
 	protected $attributes = array();
+
+	/**
+	 * A fixture file to user as source for the attributes
+	 *
+	 * @type string
+	 */
+	protected $fixture;
 
 	/**
 	 * The pool of models
@@ -84,8 +99,10 @@ class Fakable
 	 */
 	public function __construct(Model $model)
 	{
-		$this->faker = Faker::create();
-		$this->model = clone $model;
+		$this->faker   = Faker::create();
+		$this->model   = clone $model;
+
+		$this->setFixture(static::$baseFixture);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -115,11 +132,24 @@ class Fakable
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * @param string $fixture
+	 *
+	 * @return $this
+	 */
+	public function setFixture($fixture)
+	{
+		$this->fixture = $fixture;
+		$this->setAttributesFromFixture();
+
+		return $this;
+	}
+
+	/**
 	 * Save or not the generated models
 	 *
 	 * @param boolean $saved
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public function setSaved($saved)
 	{
@@ -133,7 +163,7 @@ class Fakable
 	 *
 	 * @param boolean $batch
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public function setBatch($batch)
 	{
@@ -147,7 +177,7 @@ class Fakable
 	 *
 	 * @param Closure $callback the callback
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public function setCallback(Closure $callback)
 	{
@@ -161,7 +191,7 @@ class Fakable
 	 *
 	 * @param Command $command
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public function setCommand(Command $command = null)
 	{
@@ -176,7 +206,7 @@ class Fakable
 	 * @param integer $min
 	 * @param integer $max
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public function setPool($min, $max = null)
 	{
@@ -196,7 +226,7 @@ class Fakable
 	 * @param string  $model
 	 * @param integer $power
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public function setPoolFromModel($model, $power = 2)
 	{
@@ -209,8 +239,6 @@ class Fakable
 	 * Fake multiple model instances
 	 *
 	 * @param array $attributes
-	 *
-	 * @return void
 	 */
 	public function fakeMultiple(array $attributes = array())
 	{
@@ -231,11 +259,47 @@ class Fakable
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Set the fakable attributes on the model from a file
+	 */
+	protected function setAttributesFromFixture()
+	{
+		$extension = pathinfo($this->fixture, PATHINFO_EXTENSION);
+		if (!file_exists($this->fixture)) {
+			return;
+		}
+
+		// Gather file contents
+		switch ($extension) {
+			case 'yml':
+			case 'yaml':
+				$models = Yaml::parse($this->fixture);
+				break;
+			case 'json':
+				$models = file_get_contents($this->fixture);
+				$models = json_decode($models, true);
+				break;
+			default:
+			case 'php':
+				$models = include $this->fixture;
+				break;
+		}
+
+		// Gather file contents and attributes
+		$class      = class_basename($this->model);
+		$attributes = array_get($models, $class);
+
+		// If we found attributes, set them on the instance
+		if ($attributes) {
+			$this->model->setFakableAttributes($attributes);
+		}
+	}
+
+	/**
 	 * Set the attributes to overwrite on the fake model
 	 *
 	 * @param array $attributes
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public function setAttributes(array $attributes = array())
 	{
@@ -251,8 +315,6 @@ class Fakable
 	 *
 	 * @param array    $items
 	 * @param callable $closure
-	 *
-	 * @return void
 	 */
 	public function progressIterator($items, callable $closure)
 	{
@@ -425,8 +487,6 @@ class Fakable
 
 	/**
 	 * Generate fake relations
-	 *
-	 * @return void
 	 */
 	protected function insertGeneratedRelations()
 	{
@@ -453,8 +513,6 @@ class Fakable
 
 	/**
 	 * Insert the generated models as one
-	 *
-	 * @return void
 	 */
 	protected function insertGeneratedEntries()
 	{
@@ -480,8 +538,6 @@ class Fakable
 	 *
 	 * @param string $table
 	 * @param array  $entries
-	 *
-	 * @return void
 	 */
 	protected function insertEntries($table, $entries)
 	{

@@ -82,6 +82,20 @@ trait FakableModel
 		return static::fakable()->setBatch(true)->setPool($min, $max)->fakeMultiple($attributes);
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	///////////////////////// FAKABLE ATTRIBUTES /////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Set the fakable attributes
+	 *
+	 * @param array $attributes
+	 */
+	public function setFakableAttributes(array $attributes = array())
+	{
+		$this->fakables = $attributes;
+	}
+
 	/**
 	 * Get the fakable attributes
 	 *

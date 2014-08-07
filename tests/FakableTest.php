@@ -11,6 +11,16 @@ class FakableTest extends FakableTestCase
 	 */
 	protected $fakable;
 
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$model         = new DummyFakableModel;
+		$this->fakable = new Fakable($model);
+
+		$this->fakable->setSaved(false);
+	}
+
 	public function testCanSetPoolFromOtherModel()
 	{
 		Mockery::mock('alias:SomeModel', ['count' => 5]);
@@ -81,13 +91,39 @@ class FakableTest extends FakableTestCase
 		$this->assertEquals(2, $model);
 	}
 
-	protected function setUp()
+	public function testCanUseFixtureAsSource()
 	{
-		parent::setUp();
+		$this->fakable->setFixture(__DIR__.'/_meta/fixture.php');
 
-		$model         = new DummyFakableModel;
-		$this->fakable = new Fakable($model);
+		$model = $this->fakable->fakeModel();
 
-		$this->fakable->setSaved(false);
+		$this->assertRegExp('/[a-z]/', $model->name);
+	}
+
+	public function testCanUseYamlFixtureAsSource()
+	{
+		$this->fakable->setFixture(__DIR__.'/_meta/fixture.yml');
+
+		$model = $this->fakable->fakeModel();
+
+		$this->assertRegExp('/[a-z]/', $model->name);
+	}
+
+	public function testCanUseJsonFixtureAsSource()
+	{
+		$this->fakable->setFixture(__DIR__.'/_meta/fixture.json');
+
+		$model = $this->fakable->fakeModel();
+
+		$this->assertRegExp('/[a-z]/', $model->name);
+	}
+
+	public function testCanSetFixtureForAllFutureFakableInstances()
+	{
+		Fakable::$baseFixture = __DIR__.'/_meta/fixture.yml';
+		$model = new DummyFakableModel();
+		$model = $model->fakable()->fakeModel();
+
+		$this->assertRegExp('/[a-z]/', $model->name);
 	}
 }
