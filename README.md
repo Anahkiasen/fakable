@@ -112,6 +112,12 @@ You tell Fakable where to find it by setting the `Fakable\Fakable::$baseFixture`
 Fakable\Fakable::$baseFixture = app_path().'/tests/fixtures/fakable.yml';
 ```
 
+You can also set a different file for a specific Fakable instance, like this per example:
+
+```php
+User::fakable()->setFixture(__DIR__.'/fixtures/user.json')->fakeModel()
+```
+
 The file is a simple array [class => attributes] like this:
 
 ```yml
