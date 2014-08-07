@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 1.3.1
+
+- Prevented an issue where default fakable attributes would cause SQL errors in the case of unguarded attributes
+
 # 1.3.0
 
 - Add ability to define fakable attributes in a file
