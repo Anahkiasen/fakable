@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# 1.3.0
+
+- Add ability to define fakable attributes in a file
+
 # 1.2.0
 
 - Add ability to pass a command to Fakable to display progress

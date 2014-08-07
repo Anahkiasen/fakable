@@ -107,6 +107,7 @@ class FakableTest extends FakableTestCase
 		$model = $this->fakable->fakeModel();
 
 		$this->assertRegExp('/[a-z]/', $model->name);
+		$this->assertRegExp('/[0-9]{1,2}/', (string) $model->zipcode);
 	}
 
 	public function testCanUseJsonFixtureAsSource()
