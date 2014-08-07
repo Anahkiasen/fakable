@@ -106,7 +106,7 @@ User::fakable()->fakeMultiple(array(
 ## Attributes fixtures
 
 Instead of setting all your attributes on your models you can also create an attributes fixture to hold them all. This file can be anywhere and can be either a PHP, YAML or JSON file.
-You tell Fakable where to find it by setting the `Fakable\Fakable::$baseFixture` variable to its path, in the setup of your seeding per exampel, or the start of your application.
+You tell Fakable where to find it by setting the `Fakable\Fakable::$baseFixture` variable to its path, in the setup of your seeding per example, or the start of your application.
 
 ```php
 Fakable\Fakable::$baseFixture = app_path().'/tests/fixtures/fakable.yml';
