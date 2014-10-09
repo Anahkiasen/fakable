@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
  *
  * @package Fakable
  */
-class FakableTestCase extends \PHPUnit_Framework_TestCase
+abstract class FakableTestCase extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var Fakable
