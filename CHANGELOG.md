@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.3
+
+- Update YAML dependency
+
 ## 1.3.2
 
 - Stronger lock on dependencies
