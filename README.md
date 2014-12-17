@@ -1,8 +1,6 @@
 # DEPRECATED
 ## This package is deprecated and will no longer be maintained, I recommend using [Factory Muffin](https://github.com/thephpleague/factory-muffin) instead
 
------
-
 # Fakable
 
 Allows the creation and seeding of fake Eloquent models. This is a PHP 5.4+ package.
