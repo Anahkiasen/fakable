@@ -367,7 +367,7 @@ class Fakable
 		// Get the fakable attributes
 		$fakables     = $this->model->getFakables();
 		$instance     = $this->model->newInstance();
-		$instance->id = $this->model->count() + sizeof($this->generated) + 1;
+		$instance->id = $this->model->max('id') + sizeof($this->generated) + 1;
 
 		// Generate dummy attributes
 		$defaults  = array();
