@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.4
+
+- Fix issue where fake models could overwrite existing ones
+
 ## 1.3.3
 
 - Update YAML dependency
